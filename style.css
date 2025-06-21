@@ -1,0 +1,493 @@
+/* ───────────────────────────
+    Design Tokens / Variables
+──────────────────────────── */
+:root {
+  /* colours */
+  --brand:        #ffbe0b;
+  --brand-dark:   #ffa300;
+  --text-light:   #222;
+  --text-dark:    #f5f5f5;
+  --bg-light:     #fafafa;
+  --bg-dark:      #1e1e1e;
+  --card-light:   #ffffffee; /* Slightly transparent white for light mode cards */
+  --card-dark:    #2a2a2aec; /* Slightly transparent dark for dark mode cards */
+
+  /* misc */
+  --radius:       12px;
+  --shadow:       0 4px 10px rgba(0, 0, 0, .1);
+  --transition:   .3s ease-in-out; /* Smooth transition timing */
+}
+
+/* ───────────────────────────
+    Base Reset
+──────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Segoe UI", Roboto, sans-serif;
+  background: var(--bg-light);
+  color: var(--text-light);
+  line-height: 1.6;
+  /* Apply transitions to background and color for smooth theme changes */
+  transition: background var(--transition), color var(--transition);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensures footer stays at bottom */
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.container {
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ───────────────────────────
+    Top Bar / Navigation
+──────────────────────────── */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #ddd;
+  background: var(--bg-light);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  /* Apply transitions for smooth theme changes */
+  transition: background var(--transition), border-bottom-color var(--transition);
+}
+
+.logo {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1.25rem;
+}
+
+.nav-links a {
+  font-weight: 600;
+  position: relative;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 0;
+  height: 2px;
+  background: var(--brand);
+  transition: width var(--transition);
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+.nav-toggle,
+.mode-toggle {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: var(--text-light); /* Ensure correct color in light mode */
+  transition: color var(--transition); /* Smooth color transition */
+}
+
+.nav-toggle {
+  display: none; /* Hidden by default on desktop */
+}
+
+.mode-toggle {
+  margin-left: 1.5rem; /* Space out from nav links */
+}
+
+.mode-toggle i {
+  pointer-events: none; /* Prevents icon interfering with click event */
+}
+
+/* --- Mobile Menu --- */
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: block; /* Show mobile toggle */
+  }
+
+  .mode-toggle {
+    margin-left: 0; /* No extra margin on mobile */
+  }
+
+  .navbar {
+    flex-grow: 1;
+    justify-content: flex-end; /* Push mode toggle to the right */
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0; /* Position from top */
+    right: 0; /* Position from right */
+    width: 70%;
+    height: 100vh;
+    padding: 4rem 1.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+    background: var(--bg-light);
+    transform: translateX(100%); /* Start off-screen to the right */
+    transition: transform var(--transition), background var(--transition), color var(--transition);
+    overflow-y: auto;
+  }
+
+  .nav-links.open {
+    transform: translateX(0); /* Slide into view */
+  }
+}
+
+/* ───────────────────────────
+    Hero Section
+──────────────────────────── */
+.hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2.5rem;
+  padding: 3rem 1.5rem 2rem;
+  justify-content: center; /* Center content horizontally */
+  text-align: center; /* Center text within hero-text block on small screens */
+}
+
+.hero-text {
+  flex: 1 1 260px;
+}
+
+.hero-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1 1 200px;
+}
+
+.hero-img img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: var(--shadow);
+}
+
+.tagline {
+  margin: .8rem 0 1.4rem;
+  color: #555;
+}
+
+.hero-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center buttons and social icons */
+  gap: 1rem;
+}
+
+.social-icons {
+  display: flex; /* Arrange social icons horizontally */
+  justify-content: center; /* Center social icons within their container */
+}
+
+.social-icons a {
+  font-size: 1.4rem;
+  margin: 0 .6rem; /* Adjust margin for spacing */
+  color: inherit;
+  transition: color var(--transition);
+}
+
+.social-icons a:hover {
+  color: var(--brand-dark);
+}
+
+/* Typing animation */
+.typing {
+  font-size: 2.4rem;
+  display: inline-block;
+  position: relative;
+  min-height: 1.2em; /* Prevents layout shift as text appears/disappears */
+}
+
+.typing::after {
+  content: '';
+  position: absolute;
+  right: -2px;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background: var(--brand-dark);
+  animation: caret .9s step-end infinite;
+}
+
+@keyframes caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .typing {
+    font-size: 1.9rem;
+  }
+  .hero-cta {
+    flex-direction: column; /* Stack buttons on small screens */
+  }
+}
+
+/* ───────────────────────────
+    Cards / Sections
+──────────────────────────── */
+.card {
+  background: var(--card-light);
+  padding: 2rem;
+  margin: 2rem 0;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  /* Apply transitions for smooth theme changes */
+  transition: background var(--transition), box-shadow var(--transition);
+}
+
+.card h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: var(--brand-dark);
+}
+
+/* Skills grid */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  list-style: none;
+}
+
+.skills-grid li {
+  display: flex;
+  gap: .5rem;
+  font-weight: 600;
+  align-items: center; /* Vertically align icon and text */
+}
+
+.skills-grid i {
+  color: var(--brand-dark);
+  font-size: 1.4rem;
+}
+
+/* Timeline for education */
+.timeline {
+  border-left: 3px solid var(--brand);
+  padding-left: 1.2rem;
+}
+
+.timeline-item {
+  margin-bottom: 1rem;
+}
+
+.year {
+  font-weight: 700;
+  color: var(--brand-dark);
+}
+
+/* Projects and Certificates */
+.project,
+.certificate {
+  margin-bottom: 1.5rem;
+}
+
+.project h3,
+.certificate h3 {
+  margin-bottom: .5rem;
+}
+
+.project-link {
+  display: inline-block;
+  margin-right: .8rem; /* Adjusted spacing */
+  color: var(--brand-dark);
+  font-weight: 600;
+  text-decoration: underline; /* Emphasize links */
+  transition: color var(--transition);
+}
+
+.project-link:hover {
+  color: var(--brand);
+}
+
+/* Achievements list */
+.achievements-list {
+  list-style: "👏 "; /* Emoji and space */
+  padding-left: 1.5rem;
+}
+
+.achievements-list li {
+  margin: .55rem 0;
+}
+
+/* Generic button style */
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  background: var(--brand);
+  color: #000;
+  font-weight: 700;
+  border: none;
+  padding: .75rem 1.4rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  /* Apply transitions for smooth hover and theme changes */
+  transition: background var(--transition), color var(--transition);
+  text-decoration: none; /* Ensure no underline on button */
+}
+
+.button:hover {
+  background: var(--brand-dark);
+}
+
+/* Contact Form */
+form {
+  display: grid;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: .3rem;
+}
+
+input,
+textarea {
+  padding: .75rem;
+  border: 1px solid #ccc;
+  border-radius: var(--radius);
+  font-family: inherit;
+  background: var(--bg-light); /* Ensure input background changes with theme */
+  color: var(--text-light); /* Ensure input text color changes with theme */
+  /* Apply transitions for smooth theme changes and focus states */
+  transition: background var(--transition), color var(--transition), border-color var(--transition), box-shadow var(--transition);
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--brand-dark);
+  box-shadow: 0 0 0 2px #ffbe0b55;
+}
+
+.form-msg {
+  margin-top: .7rem;
+  font-weight: 600;
+  min-height: 1.2em;
+}
+
+.success {
+  color: #28a745;
+}
+
+.error {
+  color: #e74c3c;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  border-top: 1px solid #ddd;
+  margin-top: auto; /* Pushes footer to the bottom of the page */
+  background: var(--bg-light); /* Ensure consistent background */
+  /* Apply transitions for smooth theme changes */
+  transition: background var(--transition), border-top-color var(--transition);
+}
+
+/* ───────────────────────────
+    Dark-mode overrides
+──────────────────────────── */
+body.dark {
+  background: var(--bg-dark);
+  color: var(--text-dark);
+}
+
+body.dark .top-bar {
+  background: var(--bg-dark);
+  border-bottom-color: #444; /* Darker border in dark mode */
+}
+
+body.dark .card {
+  background: var(--card-dark);
+}
+
+body.dark .nav-links {
+  background: var(--bg-dark);
+}
+
+body.dark .social-icons a:hover {
+  color: var(--brand); /* Brand color for hover in dark mode */
+}
+
+body.dark .button {
+  color: #1e1e1e; /* Dark text on brand button in dark mode */
+}
+
+body.dark .tagline {
+  color: #bbb; /* Lighter gray for tagline in dark mode */
+}
+
+body.dark .project-link:hover {
+  color: var(--brand); /* Consistent hover color for project links */
+}
+
+/* Dark mode styles for inputs/textareas */
+body.dark input,
+body.dark textarea {
+  border-color: #555;
+  background: #333;
+  color: var(--text-dark);
+}
+
+body.dark input:focus,
+body.dark textarea:focus {
+  box-shadow: 0 0 0 2px var(--brand); /* Consistent focus shadow */
+}
+
+body.dark footer {
+  background: var(--bg-dark);
+  border-top-color: #444;
+}
+
+/* Ensure nav-toggle and mode-toggle icons are visible in dark mode */
+body.dark .nav-toggle,
+body.dark .mode-toggle {
+  color: var(--text-dark);
+}
